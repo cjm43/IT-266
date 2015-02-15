@@ -363,9 +363,9 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 		check_dodge (self, bolt->s.origin, dir, speed);
 
 	tr = gi.trace (self->s.origin, NULL, NULL, bolt->s.origin, bolt, MASK_SHOT);
-	if (tr.fraction < 1.0)
+	if (tr.fraction < 100.0)//1.0
 	{
-		VectorMA (bolt->s.origin, -10/*-10*/, dir, bolt->s.origin);
+		VectorMA (bolt->s.origin, -10, dir, bolt->s.origin);
 		bolt->touch (bolt, tr.ent, NULL, NULL);
 	}
 }	
