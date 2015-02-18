@@ -687,7 +687,7 @@ GRENADE LAUNCHER
 ======================================================================
 */
 
-void weapon_grenadelauncher_fire (edict_t *ent)
+void weapon_grenadelauncher_fire (edict_t *ent, qboolean hyper, int effect)
 {
 	vec3_t	offset;
 	vec3_t	forward, right;
@@ -706,7 +706,8 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
+	//fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
+	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
@@ -737,7 +738,7 @@ ROCKET
 ======================================================================
 */
 
-void Weapon_RocketLauncher_Fire (edict_t *ent)
+void Weapon_RocketLauncher_Fire (edict_t *ent, qboolean hyper, int effect)
 {
 	vec3_t	offset, start;
 	vec3_t	forward, right;
@@ -762,6 +763,7 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
+	//fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -932,7 +934,8 @@ MACHINEGUN / CHAINGUN
 ======================================================================
 */
 
-void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
+
+void Machinegun_Fire (edict_t *ent, vec3_t dir, int effect, qboolean hyper)
 {
 	int	i;
 	vec3_t		start;
@@ -941,6 +944,8 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 	int			damage = 8;
 	int			kick = 2;
 	vec3_t		offset;
+
+
 
 	if (!(ent->client->buttons & BUTTON_ATTACK))
 	{
@@ -980,21 +985,21 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 	ent->client->kick_origin[0] = crandom() * 0.35;
 	ent->client->kick_angles[0] = ent->client->machinegun_shots * -1.5;
 
-	/*// raise the gun as it is firing
+	// raise the gun as it is firing
 	if (!deathmatch->value)
 	{
 		ent->client->machinegun_shots++;
 		if (ent->client->machinegun_shots > 9)
 			ent->client->machinegun_shots = 9;
-	}*/
+	}
 
 	// get start / end positions
 	VectorAdd (ent->client->v_angle, ent->client->kick_angles, angles);
 	AngleVectors (angles, forward, right, NULL);
 	VectorSet(offset, 0, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);		
-	//fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
+	//fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);		
+	fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
@@ -1164,7 +1169,7 @@ SHOTGUN / SUPERSHOTGUN
 ======================================================================
 */
 
-void weapon_shotgun_fire (edict_t *ent)
+void weapon_shotgun_fire (edict_t *ent, qboolean hyper, int effect)
 {
 	vec3_t		start;
 	vec3_t		forward, right;
@@ -1192,10 +1197,12 @@ void weapon_shotgun_fire (edict_t *ent)
 		kick *= 4;
 	}
 
-	if (deathmatch->value)
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
-	else
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
+	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
+
+	//if (deathmatch->value)
+		//fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
+	//else
+		//fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
