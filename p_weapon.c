@@ -1009,7 +1009,7 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 	//fire_blaster (ent, start, forward, damage, 500/*1000*/, effect, hyper);		
 	//fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
 
-	// STEVE : add 2 new bolts below
+	//add 3 new bolts below firing in a vertical line
 	VectorSet(tempvec, 0, 0, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
@@ -1050,7 +1050,7 @@ void Weapon_Machinegun (edict_t *ent)
 	static int	pause_frames[]	= {23, 45, 0};
 	static int	fire_frames[]	= {4, 5, 0};
 
-	Weapon_Generic (ent, 3, 8/*5*/, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
+	Weapon_Generic (ent, 3, 7/*5*/, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
 }
 
 void Chaingun_Fire (edict_t *ent)
