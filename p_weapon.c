@@ -811,7 +811,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
+	fire_blaster (ent, start, forward, damage, 1000/*1000*/, effect, hyper);//1000-affects speed
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -830,11 +830,23 @@ void Weapon_Blaster_Fire (edict_t *ent)
 {
 	int		damage;
 
+	vec3_t tempvec;//triple blaster
+
 	if (deathmatch->value)
 		damage = 15;
 	else
 		damage = 10;
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
+
+	// STEVE : add 2 new bolts below
+	VectorSet(tempvec, 0, 0, 8);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, 0, -8);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
 	ent->client->ps.gunframe++;
 }
 
@@ -941,6 +953,7 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 	int			damage = 8;
 	int			kick = 2;
 	vec3_t		offset;
+	vec3_t tempvec;//triple blaster
 
 	if (!(ent->client->buttons & BUTTON_ATTACK))
 	{
@@ -974,8 +987,8 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 
 	for (i=1 ; i<3 ; i++)
 	{
-		ent->client->kick_origin[i] = crandom() * 0.35;
-		ent->client->kick_angles[i] = crandom() * 0.7;
+		ent->client->kick_origin[i] = crandom() * 0.35;//simulate recoil 
+		ent->client->kick_angles[i] = crandom() * 0.7;//simulate recoil
 	}
 	ent->client->kick_origin[0] = crandom() * 0.35;
 	ent->client->kick_angles[0] = ent->client->machinegun_shots * -1.5;
@@ -990,11 +1003,24 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 
 	// get start / end positions
 	VectorAdd (ent->client->v_angle, ent->client->kick_angles, angles);
-	AngleVectors (angles, forward, right, NULL);
-	VectorSet(offset, 0, 8, ent->viewheight-8);
+	AngleVectors (angles, forward, right, NULL);//fires bullets in right direction
+	VectorSet(offset, 0, 8, ent->viewheight-8);//fires bullets from muzzle
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);		
+	//fire_blaster (ent, start, forward, damage, 500/*1000*/, effect, hyper);		
 	//fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
+
+	// STEVE : add 2 new bolts below
+	VectorSet(tempvec, 0, 0, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, 0, 8);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, 0, -8);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
@@ -1024,7 +1050,7 @@ void Weapon_Machinegun (edict_t *ent)
 	static int	pause_frames[]	= {23, 45, 0};
 	static int	fire_frames[]	= {4, 5, 0};
 
-	Weapon_Generic (ent, 3, 5, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
+	Weapon_Generic (ent, 3, 8/*5*/, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
 }
 
 void Chaingun_Fire (edict_t *ent)
