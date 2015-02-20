@@ -1302,7 +1302,7 @@ always owned, never in the world
 		"models/weapons/g_shotg/tris.md2", EF_ROTATE,
 		"models/weapons/v_shotg/tris.md2",
 /* icon */		"w_shotgun",
-/* pickup */	"Shotgun",
+/* pickup */	"Brass Knuckles",//Shotgun
 		0,
 		1,
 		"Shells",
@@ -1315,7 +1315,7 @@ always owned, never in the world
 
 /*QUAKED weapon_supershotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
-	{
+	/*{
 		"weapon_supershotgun", 
 		Pickup_Weapon,
 		Use_Weapon,
@@ -1324,8 +1324,8 @@ always owned, never in the world
 		"misc/w_pkup.wav",
 		"models/weapons/g_shotg2/tris.md2", EF_ROTATE,
 		"models/weapons/v_shotg2/tris.md2",
-/* icon */		"w_sshotgun",
-/* pickup */	"Super Shotgun",
+/* icon 		"w_sshotgun",
+/* pickup 	    "Super Shotgun",
 		0,
 		2,
 		"Shells",
@@ -1333,8 +1333,8 @@ always owned, never in the world
 		WEAP_SUPERSHOTGUN,
 		NULL,
 		0,
-/* precache */ "weapons/sshotf1b.wav"
-	},
+/* precache    "weapons/sshotf1b.wav"
+	},*/
 
 /*QUAKED weapon_machinegun (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
@@ -1453,7 +1453,7 @@ always owned, never in the world
 
 /*QUAKED weapon_hyperblaster (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
-	{
+	/*{
 		"weapon_hyperblaster", 
 		Pickup_Weapon,
 		Use_Weapon,
@@ -1462,8 +1462,8 @@ always owned, never in the world
 		"misc/w_pkup.wav",
 		"models/weapons/g_hyperb/tris.md2", EF_ROTATE,
 		"models/weapons/v_hyperb/tris.md2",
-/* icon */		"w_hyperblaster",
-/* pickup */	"HyperBlaster",
+/* icon 		"w_hyperblaster",
+/* pickup 	"HyperBlaster",
 		0,
 		1,
 		"Cells",
@@ -1471,8 +1471,8 @@ always owned, never in the world
 		WEAP_HYPERBLASTER,
 		NULL,
 		0,
-/* precache */ "weapons/hyprbu1a.wav weapons/hyprbl1a.wav weapons/hyprbf1a.wav weapons/hyprbd1a.wav misc/lasfly.wav"
-	},
+/* precache  "weapons/hyprbu1a.wav weapons/hyprbl1a.wav weapons/hyprbf1a.wav weapons/hyprbd1a.wav misc/lasfly.wav"
+	},*/
 
 /*QUAKED weapon_railgun (.3 .3 1) (-16 -16 -16) (16 16 16)
 */

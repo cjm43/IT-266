@@ -811,7 +811,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
+	fire_blaster (ent, start, forward, damage, 1000/*1000*/, effect, hyper);//1000-affects speed
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1170,7 +1170,8 @@ void weapon_shotgun_fire (edict_t *ent)
 	vec3_t		forward, right;
 	vec3_t		offset;
 	int			damage = 4;
-	int			kick = 8;
+	int			kick = 1;//8
+	vec3_t      tempvec;//triple blaster
 
 	if (ent->client->ps.gunframe == 9)
 	{
@@ -1193,9 +1194,29 @@ void weapon_shotgun_fire (edict_t *ent)
 	}
 
 	if (deathmatch->value)
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
+	{
+		//fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
+		// STEVE : add 2 new bolts below
+		VectorSet(tempvec, 0, 4, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+		VectorSet(tempvec, 0, -4, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	}
 	else
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
+	{
+		//fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
+		// STEVE : add 2 new bolts below
+		VectorSet(tempvec, 0, 4, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+		VectorSet(tempvec, 0, -4, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	}
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1215,7 +1236,7 @@ void Weapon_Shotgun (edict_t *ent)
 	static int	pause_frames[]	= {22, 28, 34, 0};
 	static int	fire_frames[]	= {8, 9, 0};
 
-	Weapon_Generic (ent, 7, 18, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);
+	Weapon_Generic (ent, 7, 10/*18*/, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);
 }
 
 
