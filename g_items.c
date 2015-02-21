@@ -204,8 +204,8 @@ qboolean Pickup_Bandolier (edict_t *ent, edict_t *other)
 	gitem_t	*item;
 	int		index;
 
-	/*if (other->client->pers.max_bullets < 250)
-		other->client->pers.max_bullets = 250;*/
+	if (other->client->pers.max_bullets < 250)
+		other->client->pers.max_bullets = 250;
 	if (other->client->pers.max_shells < 150)
 		other->client->pers.max_shells = 150;
 	if (other->client->pers.max_cells < 250)
@@ -213,14 +213,14 @@ qboolean Pickup_Bandolier (edict_t *ent, edict_t *other)
 	if (other->client->pers.max_slugs < 75)
 		other->client->pers.max_slugs = 75;
 
-	/*item = FindItem("Bullets");
+	item = FindItem("Bullets");
 	if (item)
 	{
 		index = ITEM_INDEX(item);
 		other->client->pers.inventory[index] += item->quantity;
 		if (other->client->pers.inventory[index] > other->client->pers.max_bullets)
 			other->client->pers.inventory[index] = other->client->pers.max_bullets;
-	}*/
+	}
 
 	item = FindItem("Shells");
 	if (item)
@@ -242,8 +242,8 @@ qboolean Pickup_Pack (edict_t *ent, edict_t *other)
 	gitem_t	*item;
 	int		index;
 
-	/*if (other->client->pers.max_bullets < 300)
-		other->client->pers.max_bullets = 300;*/
+	if (other->client->pers.max_bullets < 300)
+		other->client->pers.max_bullets = 300;
 	if (other->client->pers.max_shells < 200)
 		other->client->pers.max_shells = 200;
 	if (other->client->pers.max_rockets < 100)
@@ -255,14 +255,14 @@ qboolean Pickup_Pack (edict_t *ent, edict_t *other)
 	if (other->client->pers.max_slugs < 100)
 		other->client->pers.max_slugs = 100;
 
-	/*item = FindItem("Bullets");
+	item = FindItem("Bullets");
 	if (item)
 	{
 		index = ITEM_INDEX(item);
 		other->client->pers.inventory[index] += item->quantity;
 		if (other->client->pers.inventory[index] > other->client->pers.max_bullets)
 			other->client->pers.inventory[index] = other->client->pers.max_bullets;
-	}*/
+	}
 
 	item = FindItem("Shells");
 	if (item)
@@ -354,7 +354,7 @@ void Use_Breather (edict_t *ent, gitem_t *item)
 	else
 		ent->client->breather_framenum = level.framenum + 300;
 
-//	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/damage.wav"), 1, ATTN_NORM, 0);
+	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/damage.wav"), 1, ATTN_NORM, 0);
 }
 
 //======================================================================
@@ -1551,7 +1551,7 @@ always owned, never in the world
 */
 	{
 		"ammo_bullets",
-		//Pickup_Ammo,
+		Pickup_Ammo,
 		NULL,
 		Drop_Ammo,
 		NULL,

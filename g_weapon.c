@@ -340,12 +340,12 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	// (blaster/hyperblaster shots), the player won't be solid clipped against
 	// the object.  Right now trying to run into a firing hyperblaster
 	// is very jerky since you are predicted 'against' the shots.
-	VectorCopy (start, bolt->s.origin);
-	VectorCopy (start, bolt->s.old_origin);
-	vectoangles (dir, bolt->s.angles);
-	VectorScale (dir, speed, bolt->velocity);
-	bolt->movetype = MOVETYPE_FLYMISSILE;
-	bolt->clipmask = MASK_SHOT;
+	VectorCopy (start, bolt->s.origin);//origin of bolt of whatever it hits
+	VectorCopy (start, bolt->s.old_origin);//origin of the bolt from the blaster
+	vectoangles (dir, bolt->s.angles);//angle of the bolt
+	VectorScale (dir, speed, bolt->velocity);//takes direction and speed and puts it into velocity
+	bolt->movetype = MOVETYPE_FLYMISSILE;//how the bolt travels the map
+	bolt->clipmask = MASK_SHOT;//indicates what the bolt should not pass through
 	bolt->solid = SOLID_BBOX;
 	bolt->s.effects |= effect;
 	VectorClear (bolt->mins);
