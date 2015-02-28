@@ -825,6 +825,37 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 }
 
+void Knuckle_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, int effect)
+{
+
+	vec3_t	forward, right; 
+	vec3_t	start;
+	vec3_t	offset;
+
+	if (is_quad)
+		damage *= 4;
+	AngleVectors (ent->client->v_angle, forward, right, NULL);
+	VectorSet(offset, 24, 8, ent->viewheight-8);
+	VectorAdd (offset, g_offset, offset);
+	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+
+	VectorScale (forward, -2, ent->client->kick_origin);
+	ent->client->kick_angles[0] = -1;
+
+	fire_knuckles (ent, start, forward, damage, 1000/*1000*/, effect, hyper);//1000-affects speed
+
+	// send muzzle flash
+	gi.WriteByte (svc_muzzleflash);
+	gi.WriteShort (ent-g_edicts);
+	if (hyper)
+		gi.WriteByte (MZ_HYPERBLASTER | is_silenced);
+	else
+		gi.WriteByte (MZ_BLASTER | is_silenced);
+	gi.multicast (ent->s.origin, MULTICAST_PVS);
+
+	PlayerNoise(ent, start, PNOISE_WEAPON);
+}
+
 
 void Weapon_Blaster_Fire (edict_t *ent)
 {
@@ -838,12 +869,32 @@ void Weapon_Blaster_Fire (edict_t *ent)
 	ent->client->ps.gunframe++;
 }
 
+void Weapon_Knuckle_Fire (edict_t *ent)
+{
+	int		damage;
+
+	if (deathmatch->value)
+		damage = 15;
+	else
+		damage = 10;
+	Knuckle_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
+	ent->client->ps.gunframe++;
+}
+
 void Weapon_Blaster (edict_t *ent)
 {
 	static int	pause_frames[]	= {19, 32, 0};
 	static int	fire_frames[]	= {5, 0};
 
 	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Blaster_Fire);
+}
+
+void Weapon_Knuckle (edict_t *ent)
+{
+	static int	pause_frames[]	= {19, 32, 0};
+	static int	fire_frames[]	= {5, 0};
+
+	Weapon_Generic (ent, 4, 8, 52, 55, pause_frames, fire_frames, Weapon_Knuckle_Fire);
 }
 
 
@@ -993,8 +1044,8 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 	AngleVectors (angles, forward, right, NULL);
 	VectorSet(offset, 0, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);		
-	//fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
+	//fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);		
+	fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
@@ -1169,7 +1220,7 @@ void weapon_shotgun_fire (edict_t *ent)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		offset;
-	int			damage = 4;
+	int			damage = 100;
 	int			kick = 1;//8
 	vec3_t      tempvec;//triple blaster
 
@@ -1197,25 +1248,25 @@ void weapon_shotgun_fire (edict_t *ent)
 	{
 		//fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
 		// STEVE : add 2 new bolts below
-		VectorSet(tempvec, 0, 4, 0);
+		VectorSet(tempvec, 0, 2, 0);
 		VectorAdd(tempvec, vec3_origin, tempvec);
-		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
-		VectorSet(tempvec, 0, -4, 0);
+		VectorSet(tempvec, 0, -2, 0);
 		VectorAdd(tempvec, vec3_origin, tempvec);
-		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
 	}
 	else
 	{
 		//fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
 		// STEVE : add 2 new bolts below
-		VectorSet(tempvec, 0, 4, 0);
+		VectorSet(tempvec, 0, 2, 0);
 		VectorAdd(tempvec, vec3_origin, tempvec);
-		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
-		VectorSet(tempvec, 0, -4, 0);
+		VectorSet(tempvec, 0, -2, 0);
 		VectorAdd(tempvec, vec3_origin, tempvec);
-		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
 	}
 
 	// send muzzle flash
