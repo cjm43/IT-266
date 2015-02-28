@@ -1011,8 +1011,8 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 	ent->client->ps.gunframe++;
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		//ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 	/*int	i;
 	vec3_t		start;

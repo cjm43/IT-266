@@ -343,7 +343,7 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	VectorCopy (start, bolt->s.origin);//origin of bolt of whatever it hits
 	VectorCopy (start, bolt->s.old_origin);//origin of the bolt from the blaster
 	vectoangles (dir, bolt->s.angles);//angle of the bolt
-	VectorScale (dir, 1000, bolt->velocity);//takes direction and speed and puts it into velocity
+	VectorScale (dir, 900, bolt->velocity);//takes direction and speed and puts it into velocity
 	bolt->movetype = MOVETYPE_FLYMISSILE;//how the bolt travels the map
 	bolt->clipmask = MASK_SHOT;//indicates what the bolt should not pass through
 	bolt->solid = SOLID_BBOX;
