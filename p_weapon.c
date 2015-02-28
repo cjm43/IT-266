@@ -917,9 +917,9 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 	int		radius_damage;
 	vec3_t  tempvec;
 
-	damage = 100 + (int)(random() * 20.0);
-	radius_damage = 120;
-	damage_radius = 120;
+	damage = 100; //+ (int)(random() * 20.0);
+	//radius_damage = 120;
+	//damage_radius = 120;
 	if (is_quad)
 	{
 		damage *= 4;
@@ -938,11 +938,23 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
 	//fire_blaster (ent, start, forward, damage, 500/*1000, effect, hyper);//1000-affects speed
 
+	VectorSet(tempvec, 0, 0, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
 	VectorSet(tempvec, 0, 8, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, -8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, 0, 8);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, 0, -8);
 	VectorAdd(tempvec, vec3_origin, tempvec);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
