@@ -940,22 +940,27 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 
 	VectorSet(tempvec, 0, 0, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
+	//fire_rocket (ent, tempvec, forward, damage, 650, damage_radius, radius_damage);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, 8, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
+	//fire_rocket (ent, tempvec, forward, damage, 650, damage_radius, radius_damage);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, -8, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
+	//fire_rocket (ent, tempvec, forward, damage, 650, damage_radius, radius_damage);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, 0, 8);
 	VectorAdd(tempvec, vec3_origin, tempvec);
+	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, 0, -8);
 	VectorAdd(tempvec, vec3_origin, tempvec);
+	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 	// send muzzle flash

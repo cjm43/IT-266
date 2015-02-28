@@ -373,7 +373,6 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	}
 }	
 
-
 /*
 =================
 fire_grenade
@@ -601,13 +600,13 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 	G_FreeEdict (ent);
 }
 
-void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage)
+void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper, float damage_radius, int radius_damage)
 {
-	//edict_t	*rocket;
+	edict_t	*rocket;
 	edict_t	*bolt;
 	trace_t	tr;
-	int effect;
-	qboolean hyper;
+
+	VectorNormalize (dir);
 
 	bolt = G_Spawn();
 	bolt->svflags = SVF_DEADMONSTER;
@@ -619,7 +618,7 @@ void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	VectorCopy (start, bolt->s.origin);
 	VectorCopy (start, bolt->s.old_origin);
 	vectoangles (dir, bolt->s.angles);
-	VectorScale (dir, 40, bolt->velocity);
+	VectorScale (dir, speed, bolt->velocity);
 	bolt->movetype = MOVETYPE_FLYMISSILE;
 	bolt->clipmask = MASK_SHOT;
 	bolt->solid = SOLID_BBOX;
@@ -630,7 +629,7 @@ void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	bolt->s.sound = gi.soundindex ("misc/lasfly.wav");
 	bolt->owner = self;
 	bolt->touch = blaster_touch;
-	bolt->nextthink = level.time + .5;
+	bolt->nextthink = level.time + 2;
 	bolt->think = G_FreeEdict;
 	bolt->dmg = damage;
 	bolt->classname = "bolt";
@@ -638,11 +637,18 @@ void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 		bolt->spawnflags = 1;
 	gi.linkentity (bolt);
 
-	/*rocket = G_Spawn();
+	tr = gi.trace (self->s.origin, NULL, NULL, bolt->s.origin, bolt, MASK_SHOT);
+	if (tr.fraction < 1.0)
+	{
+		VectorMA (bolt->s.origin, -10, dir, bolt->s.origin);
+		bolt->touch (bolt, tr.ent, NULL, NULL);
+	}
+
+	rocket = G_Spawn();
 	VectorCopy (start, rocket->s.origin);
 	VectorCopy (dir, rocket->movedir);
 	vectoangles (dir, rocket->s.angles);
-	VectorScale (dir, 40, rocket->velocity);
+	VectorScale (dir, 400, rocket->velocity);
 	rocket->movetype = MOVETYPE_FLYMISSILE;
 	rocket->clipmask = MASK_SHOT;
 	rocket->solid = SOLID_BBOX;
@@ -661,14 +667,9 @@ void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed
 	rocket->classname = "rocket";
 
 	if (self->client)
-		check_dodge (self, rocket->s.origin, dir, speed);*/
+		check_dodge (self, rocket->s.origin, dir, speed);
 
-	tr = gi.trace (self->s.origin, NULL, NULL, bolt->s.origin, bolt, MASK_SHOT);
-	if (tr.fraction < 1.0)
-	{
-		VectorMA (bolt->s.origin, -10, dir, bolt->s.origin);
-		bolt->touch (bolt, tr.ent, NULL, NULL);
-	}
+
 
 	//gi.linkentity (rocket);
 }
