@@ -935,10 +935,10 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
+	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
 	//fire_blaster (ent, start, forward, damage, 500/*1000, effect, hyper);//1000-affects speed
 
-	VectorSet(tempvec, 0, 0, 0);
+	/*VectorSet(tempvec, 0, 0, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
 	//fire_rocket (ent, tempvec, forward, damage, 650, damage_radius, radius_damage);
 	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
@@ -961,7 +961,7 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 	VectorSet(tempvec, 0, 0, -4);
 	VectorAdd(tempvec, vec3_origin, tempvec);
 	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);*/
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
