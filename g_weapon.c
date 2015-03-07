@@ -457,11 +457,13 @@ static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurfa
 		{
 			gi.sound (ent, CHAN_VOICE, gi.soundindex ("weapons/grenlb1b.wav"), 1, ATTN_NORM, 0);
 		}
+		G_FreeEdict (ent);
 		return;
 	}
 
 	ent->enemy = other;
-	Grenade_Explode (ent);
+	T_Damage (other, ent, ent->owner, ent->velocity, other->s.origin, other->s.origin, 100, 0, 2, MOD_UNKNOWN);
+	G_FreeEdict (ent);
 }
 
 void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius)
