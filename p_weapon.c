@@ -1291,12 +1291,12 @@ void weapon_railgun_fire (edict_t *ent)
 	if (deathmatch->value)
 	{	// normal damage is too extreme in dm
 		damage = 100;
-		kick = 200;
+		//kick = 200;
 	}
 	else
 	{
 		damage = 150;
-		kick = 250;
+		//kick = 250;
 	}
 
 	if (is_quad)
@@ -1323,8 +1323,8 @@ void weapon_railgun_fire (edict_t *ent)
 	ent->client->ps.gunframe++;
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	/*if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		ent->client->pers.inventory[ent->client->ammo_index]--;*/
 }
 
 
