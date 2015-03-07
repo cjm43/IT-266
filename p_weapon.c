@@ -529,12 +529,13 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 	vec3_t	offset;
 	vec3_t	forward, right;
 	vec3_t	start;
+	vec3_t  tempvec;
 	int		damage = 125;
 	float	timer;
 	int		speed;
 	float	radius;
 
-	radius = damage+40;
+	//radius = damage+40;
 	if (is_quad)
 		damage *= 4;
 
@@ -542,12 +543,20 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 
-	timer = ent->client->grenade_time - level.time;
-	speed = GRENADE_MINSPEED + (GRENADE_TIMER - timer) * ((GRENADE_MAXSPEED - GRENADE_MINSPEED) / GRENADE_TIMER);
-	fire_grenade2 (ent, start, forward, damage, speed, timer, radius, held);
+	//timer = ent->client->grenade_time - level.time;
+	//speed = GRENADE_MINSPEED + (GRENADE_TIMER - timer) * ((GRENADE_MAXSPEED - GRENADE_MINSPEED) / GRENADE_TIMER);
+	//fire_grenade2 (ent, start, forward, damage, speed, timer, radius, held);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	VectorSet(tempvec, 0, 8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, -8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	/*if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		ent->client->pers.inventory[ent->client->ammo_index]--;*/
 
 	ent->client->grenade_time = level.time + 1.0;
 
@@ -692,10 +701,11 @@ void weapon_grenadelauncher_fire (edict_t *ent, qboolean hyper, int effect)
 	vec3_t	offset;
 	vec3_t	forward, right;
 	vec3_t	start;
+	vec3_t  tempvec;
 	int		damage = 120;
 	float	radius;
 
-	radius = damage+40;
+	//radius = damage+40;
 	if (is_quad)
 		damage *= 4;
 
@@ -707,7 +717,15 @@ void weapon_grenadelauncher_fire (edict_t *ent, qboolean hyper, int effect)
 	ent->client->kick_angles[0] = -1;
 
 	//fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
-	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
+	//fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
+
+	VectorSet(tempvec, 0, 8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, -8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
@@ -718,8 +736,8 @@ void weapon_grenadelauncher_fire (edict_t *ent, qboolean hyper, int effect)
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	/*if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		ent->client->pers.inventory[ent->client->ammo_index]--;*/
 }
 
 void Weapon_GrenadeLauncher (edict_t *ent)
@@ -812,7 +830,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
+	fire_blaster (ent, start, forward, damage, 500/*1000*/, effect, hyper);//1000-affects speed
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
