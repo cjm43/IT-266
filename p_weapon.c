@@ -696,7 +696,7 @@ GRENADE LAUNCHER
 ======================================================================
 */
 
-void weapon_grenadelauncher_fire (edict_t *ent)
+void weapon_grenadelauncher_fire (edict_t *ent, qboolean hyper, int effect)
 {
 	vec3_t	offset;
 	vec3_t	forward, right;
