@@ -462,7 +462,7 @@ static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurfa
 	}
 
 	ent->enemy = other;
-	T_Damage (other, ent, ent->owner, ent->velocity, other->s.origin, other->s.origin, 100, 0, 2, MOD_UNKNOWN);
+	T_Damage (other, ent, ent->owner, ent->velocity, other->s.origin, other->s.origin, 50, 0, DAMAGE_NO_ARMOR, MOD_CRUSH);
 	G_FreeEdict (ent);
 }
 
