@@ -696,7 +696,7 @@ GRENADE LAUNCHER
 ======================================================================
 */
 
-void weapon_grenadelauncher_fire (edict_t *ent, qboolean hyper, int effect)
+void weapon_grenadelauncher_fire (edict_t *ent)
 {
 	vec3_t	offset;
 	vec3_t	forward, right;
@@ -815,7 +815,6 @@ BLASTER / HYPERBLASTER
 
 void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, int effect)
 {
-
 	vec3_t	forward, right; 
 	vec3_t	start;
 	vec3_t	offset;
