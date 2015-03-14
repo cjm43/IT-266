@@ -1241,7 +1241,7 @@ gitem_t	itemlist[] =
 /*QUAKED item_power_shield (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"item_power_shield",
+		NULL/*"item_power_shield"*/,
 		Pickup_PowerArmor,
 		Use_PowerArmor,
 		Drop_PowerArmor,
@@ -1316,7 +1316,7 @@ always owned, never in the world
 /*QUAKED weapon_supershotgun (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"weapon_supershotgun", 
+		NULL/*"weapon_supershotgun"*/, 
 		Pickup_Weapon,
 		Use_Weapon,
 		Drop_Weapon,
@@ -1440,7 +1440,7 @@ always owned, never in the world
 		"models/weapons/g_rocket/tris.md2", EF_ROTATE,
 		"models/weapons/v_rocket/tris.md2",
 /* icon */		"w_rlauncher",
-/* pickup */	"Mace",//Rocket Launcher
+/* pickup */	"Rocket Launcher",
 		0,
 		1,
 		"Rockets",

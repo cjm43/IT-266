@@ -876,38 +876,9 @@ ROCKET
 ======================================================================
 */
 
-void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, int effect*/
+void Weapon_RocketLauncher_Fire (edict_t *ent)
 {
-	/*vec3_t	forward, right; 
-	vec3_t	start;
-	vec3_t	offset;
-	int damage;
 
-	if (is_quad)
-		damage *= 4;
-	AngleVectors (ent->client->v_angle, forward, right, NULL);
-	VectorSet(offset, 24, 8, ent->viewheight-8);
-	VectorAdd (offset, g_offset, offset);
-	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-
-	VectorScale (forward, -2, ent->client->kick_origin);
-	ent->client->kick_angles[0] = -1;
-
-	fire_blaster (ent, start, forward, damage, 500/*1000, effect, hyper);//1000-affects speed
-
-	// send muzzle flash
-	gi.WriteByte (svc_muzzleflash);
-	gi.WriteShort (ent-g_edicts);
-	if (hyper)
-		gi.WriteByte (MZ_HYPERBLASTER | is_silenced);
-	else
-		gi.WriteByte (MZ_BLASTER | is_silenced);
-	gi.multicast (ent->s.origin, MULTICAST_PVS);
-
-	PlayerNoise(ent, start, PNOISE_WEAPON);*/
-
-	//vec3_t	offset, start;
-	//vec3_t	forward, right;
 	vec3_t	forward, right; 
 	vec3_t	start;
 	vec3_t  offset;
@@ -915,11 +886,10 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 	int		damage;
 	float	damage_radius;
 	int		radius_damage;
-	vec3_t  tempvec;
 
-	damage = 100; //+ (int)(random() * 20.0);
-	//radius_damage = 120;
-	//damage_radius = 120;
+	damage = 100; + (int)(random() * 20.0);
+	radius_damage = 120;
+	damage_radius = 120;
 	if (is_quad)
 	{
 		damage *= 4;
@@ -936,32 +906,6 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
-	//fire_blaster (ent, start, forward, damage, 500/*1000, effect, hyper);//1000-affects speed
-
-	/*VectorSet(tempvec, 0, 0, 0);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	//fire_rocket (ent, tempvec, forward, damage, 650, damage_radius, radius_damage);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
-
-	VectorSet(tempvec, 0, 4, 0);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	//fire_rocket (ent, tempvec, forward, damage, 650, damage_radius, radius_damage);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
-
-	VectorSet(tempvec, 0, -4, 0);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	//fire_rocket (ent, tempvec, forward, damage, 650, damage_radius, radius_damage);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
-
-	VectorSet(tempvec, 0, 0, 4);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
-
-	VectorSet(tempvec, 0, 0, -4);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	//fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);*/
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -977,7 +921,7 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 		//ent->client->pers.inventory[ent->client->ammo_index]--;
 }
 
-void Weapon_RocketLauncher (edict_t *ent)//edict_t *ent
+void Weapon_RocketLauncher (edict_t *ent)
 {
 	static int	pause_frames[]	= {25, 33, 42, 50, 0};
 	static int	fire_frames[]	= {5, 0};
