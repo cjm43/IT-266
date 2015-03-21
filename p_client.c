@@ -960,6 +960,14 @@ void CopyToBodyQue (edict_t *ent)
 
 void respawn (edict_t *self)
 {
+	if(self->client->oldplayer)
+	{
+		G_FreeEdict(self->client->oldplayer);//destroy player entity
+	}
+	if(self->client->chasecam)
+	{
+		G_FreeEdict(self->client->chasecam); //destroy chasecam entity
+	}
 	if (deathmatch->value || coop->value)
 	{
 		// spectator's don't leave bodies
@@ -1160,6 +1168,7 @@ void PutClientInServer (edict_t *ent)
 	ent->watertype = 0;
 	ent->flags &= ~FL_NO_KNOCKBACK;
 	ent->svflags &= ~SVF_DEADMONSTER;
+	ent->svflags &= ~SVF_NOCLIENT;
 
 	VectorCopy (mins, ent->mins);
 	VectorCopy (maxs, ent->maxs);
@@ -1185,7 +1194,7 @@ void PutClientInServer (edict_t *ent)
 			client->ps.fov = 160;
 	}
 
-	client->ps.gunindex = gi.modelindex(client->pers.weapon->view_model);
+	client->ps.gunindex = gi.modelindex("players/male/tris.md2");
 
 	// clear entity state values
 	ent->s.effects = 0;

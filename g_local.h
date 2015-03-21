@@ -939,6 +939,10 @@ struct gclient_s
 
 	float		respawn_time;		// can respawn when time > this
 
+	int			chasetoggle;        //determine if camera is on or off
+	edict_t		*chasecam;          //chasecam entity
+	edict_t		*oldplayer;         //used for displaying model to player
+
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
 };
@@ -1091,5 +1095,9 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
+
+	int				chasedist1; //determine distance between camera and player
+	int				chasedist2;
 };
+extern void CheckChasecam_Viewent(edict_t *ent); //tell compiler this will be defined in code later on
 
