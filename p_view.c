@@ -304,24 +304,24 @@ void SV_CalcViewOffset (edict_t *ent)
 
 	//if(!ent->client->chasetoggle)//if cam is toggled off
 	//{
-		if (v[0] < -14)
-			v[0] = -14;
+		if (v[0] < -14)//-14
+			v[0] = -14;//--14
 
-		else if (v[0] > 14)
-			v[0] = 14;
+		else if (v[0] > 14)//14
+			v[0] = 14;//14
 
-		if (v[1] < -14)
-			v[1] = -14;
-		else if (v[1] > 14)
-			v[1] = 14;
+		if (v[1] < -14)//-14
+			v[1] = -14;//-14
+		else if (v[1] > 14)//14
+			v[1] = 14;//14
 
-		if (v[2] < -22)
-			v[2] = -22;
+		if (v[2] < -22)//-22
+			v[2] = -22;//-22
 
-		else if (v[2] > 30)
-			v[2] = 30;
+		else if (v[2] > 30)//30
+			v[2] = 30;//30
 	//}
-	/*else
+    /*else
 	{
 		VectorSet(v, 0, 0, 0);
 		if(ent->client->chasecam != NULL)
