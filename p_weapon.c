@@ -1043,13 +1043,10 @@ void Machinegun_Fire (edict_t *ent, vec3_t dir, int effect, qboolean hyper)
 	int			kick = 8;
 	vec3_t    tempvec;
 
-<<<<<<< HEAD
 	if (ent->client->ps.gunframe == 9)
-=======
 
 
 	if (!(ent->client->buttons & BUTTON_ATTACK))
->>>>>>> mace_mod
 	{
 		ent->client->ps.gunframe++;
 		return;
@@ -1071,52 +1068,50 @@ void Machinegun_Fire (edict_t *ent, vec3_t dir, int effect, qboolean hyper)
 
 	if (deathmatch->value)
 	{
-	VectorSet(tempvec, 0, 0, 0);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
+		VectorSet(tempvec, 0, 0, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 	
-	VectorSet(tempvec, 0, 0, 4);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
+		VectorSet(tempvec, 0, 0, 4);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 
-	VectorSet(tempvec, 0, 0, -4);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
+		VectorSet(tempvec, 0, 0, -4);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 	}
-<<<<<<< HEAD
+
 	else
 	{
 		VectorSet(tempvec, 0, 0, 0);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
-=======
-	ent->client->kick_origin[0] = crandom() * 0.35;
-	ent->client->kick_angles[0] = ent->client->machinegun_shots * -1.5;
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
+		ent->client->kick_origin[0] = crandom() * 0.35;
+		ent->client->kick_angles[0] = ent->client->machinegun_shots * -1.5;
 
 	// raise the gun as it is firing
-	if (!deathmatch->value)
-	{
-		ent->client->machinegun_shots++;
-		if (ent->client->machinegun_shots > 9)
-			ent->client->machinegun_shots = 9;
-	}
+	//if (!deathmatch->value)
+	//{
+		//ent->client->machinegun_shots++;
+		//if (ent->client->machinegun_shots > 9)
+			//ent->client->machinegun_shots = 9;
+	//}
 
 	// get start / end positions
-	VectorAdd (ent->client->v_angle, ent->client->kick_angles, angles);
-	AngleVectors (angles, forward, right, NULL);
-	VectorSet(offset, 0, 8, ent->viewheight-8);
-	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+		//VectorAdd (ent->client->v_angle, ent->client->kick_angles, angles);
+		//AngleVectors (angles, forward, right, NULL);
+		//VectorSet(offset, 0, 8, ent->viewheight-8);
+		//P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	//fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);		
-	fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
->>>>>>> mace_mod
+	//fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
 
-	VectorSet(tempvec, 0, 0, 4);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
+		VectorSet(tempvec, 0, 0, 4);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 
-	VectorSet(tempvec, 0, 0, -4);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
+		VectorSet(tempvec, 0, 0, -4);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 	}
 
 	// send muzzle flash
