@@ -520,21 +520,21 @@ GRENADE
 ======================================================================
 */
 
-#define GRENADE_TIMER		3.0
-#define GRENADE_MINSPEED	400
-#define GRENADE_MAXSPEED	800
+#define GRENADE_TIMER		2.0
+#define GRENADE_MINSPEED	2000
+#define GRENADE_MAXSPEED	2000
 
 void weapon_grenade_fire (edict_t *ent, qboolean held)
 {
 	vec3_t	offset;
 	vec3_t	forward, right;
 	vec3_t	start;
-	int		damage = 125;
+	int		damage = 300;
 	float	timer;
 	int		speed;
 	float	radius;
 
-	radius = damage+40;
+	radius = damage+20;
 	if (is_quad)
 		damage *= 4;
 
@@ -546,8 +546,8 @@ void weapon_grenade_fire (edict_t *ent, qboolean held)
 	speed = GRENADE_MINSPEED + (GRENADE_TIMER - timer) * ((GRENADE_MAXSPEED - GRENADE_MINSPEED) / GRENADE_TIMER);
 	fire_grenade2 (ent, start, forward, damage, speed, timer, radius, held);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	/*if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		ent->client->pers.inventory[ent->client->ammo_index]--;*/
 
 	ent->client->grenade_time = level.time + 1.0;
 
@@ -636,17 +636,17 @@ void Weapon_Grenade (edict_t *ent)
 			}
 
 			// they waited too long, detonate it in their hand
-			if (!ent->client->grenade_blew_up && level.time >= ent->client->grenade_time)
+			/*if (!ent->client->grenade_blew_up && level.time >= ent->client->grenade_time)
 			{
 				ent->client->weapon_sound = 0;
 				weapon_grenade_fire (ent, true);
 				ent->client->grenade_blew_up = true;
-			}
+			}*/
 
 			if (ent->client->buttons & BUTTON_ATTACK)
 				return;
 
-			if (ent->client->grenade_blew_up)
+			/*if (ent->client->grenade_blew_up)
 			{
 				if (level.time >= ent->client->grenade_time)
 				{
@@ -657,7 +657,7 @@ void Weapon_Grenade (edict_t *ent)
 				{
 					return;
 				}
-			}
+			}*/
 		}
 
 		if (ent->client->ps.gunframe == 12)
@@ -1314,12 +1314,12 @@ void weapon_railgun_fire (edict_t *ent)
 	if (deathmatch->value)
 	{	// normal damage is too extreme in dm
 		damage = 100;
-		kick = 200;
+		//kick = 200;
 	}
 	else
 	{
 		damage = 150;
-		kick = 250;
+		//kick = 250;
 	}
 
 	if (is_quad)
@@ -1346,8 +1346,8 @@ void weapon_railgun_fire (edict_t *ent)
 	ent->client->ps.gunframe++;
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index]--;
+	/*if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		ent->client->pers.inventory[ent->client->ammo_index]--;*/
 }
 
 
