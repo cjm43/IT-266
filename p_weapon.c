@@ -1430,18 +1430,18 @@ void weapon_railgun_fire (edict_t *ent)
 	if (deathmatch->value)
 	{	// normal damage is too extreme in dm
 		damage = 100;
-		kick = 200;
+		//kick = 200;
 	}
 	else
 	{
 		damage = 150;
-		kick = 250;
+		//kick = 250;
 	}
 
 	if (is_quad)
 	{
 		damage *= 4;
-		kick *= 4;
+		//kick *= 4;
 	}
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
@@ -1465,6 +1465,8 @@ void weapon_railgun_fire (edict_t *ent)
 	/*if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;*/
 }
+
+
 
 
 void Weapon_Railgun (edict_t *ent)
