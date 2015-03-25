@@ -1440,7 +1440,7 @@ always owned, never in the world
 		"models/weapons/g_rocket/tris.md2", EF_ROTATE,
 		"models/weapons/v_rocket/tris.md2",
 /* icon */		"w_rlauncher",
-/* pickup */	"Rocket Launcher",
+/* pickup */	"Mace",//Rocket Launcher
 		0,
 		1,
 		"Rockets",
