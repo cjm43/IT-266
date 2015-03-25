@@ -1441,7 +1441,7 @@ void weapon_railgun_fire (edict_t *ent)
 	if (is_quad)
 	{
 		damage *= 4;
-		//kick *= 4;
+		kick *= 4;
 	}
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
@@ -1465,7 +1465,6 @@ void weapon_railgun_fire (edict_t *ent)
 	/*if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;*/
 }
-
 
 
 
