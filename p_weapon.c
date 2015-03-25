@@ -969,10 +969,10 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
 	VectorSet(offset, 24, 8, ent->viewheight-8);
-	VectorAdd (offset, g_offset, offset);
+	//VectorAdd (offset, g_offset, offset);
 
 	VectorScale (forward, -2, ent->client->kick_origin);
-	ent->client->kick_angles[0] = -1;
+	//ent->client->kick_angles[0] = -1;
 
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
@@ -1036,7 +1036,7 @@ MACHINEGUN / CHAINGUN
 */
 
 
-void Machinegun_Fire (edict_t *ent, vec3_t dir)
+void Machinegun_Fire (edict_t *ent)
 {
 	vec3_t		start;
 	vec3_t		forward, right;
@@ -1430,12 +1430,12 @@ void weapon_railgun_fire (edict_t *ent)
 	if (deathmatch->value)
 	{	// normal damage is too extreme in dm
 		damage = 100;
-		//kick = 200;
+		kick = 200;
 	}
 	else
 	{
 		damage = 150;
-		//kick = 250;
+		kick = 250;
 	}
 
 	if (is_quad)
