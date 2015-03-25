@@ -825,6 +825,38 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 }
 
+void Blaster_Fire_2 (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, int effect)
+{
+
+	vec3_t	forward, right; 
+	vec3_t	start;
+	vec3_t	offset;
+
+	if (is_quad)
+		damage *= 4;
+	AngleVectors (ent->client->v_angle, forward, right, NULL);
+	VectorSet(offset, 24, 8, ent->viewheight-8);
+	VectorAdd (offset, g_offset, offset);
+	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+
+	VectorScale (forward, -2, ent->client->kick_origin);
+	ent->client->kick_angles[0] = -1;
+
+	fire_blaster_2 (ent, start, forward, damage, 1000/*1000*/, effect, hyper);//1000-affects speed
+
+	// send muzzle flash
+	gi.WriteByte (svc_muzzleflash);
+	gi.WriteShort (ent-g_edicts);
+	if (hyper)
+		gi.WriteByte (MZ_HYPERBLASTER | is_silenced);
+	else
+		gi.WriteByte (MZ_BLASTER | is_silenced);
+	gi.multicast (ent->s.origin, MULTICAST_PVS);
+
+	PlayerNoise(ent, start, PNOISE_WEAPON);
+}
+
+
 
 void Weapon_Blaster_Fire (edict_t *ent)
 {
@@ -837,15 +869,6 @@ void Weapon_Blaster_Fire (edict_t *ent)
 	else
 		damage = 10;
 	Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
-
-	// STEVE : add 2 new bolts below
-	/*VectorSet(tempvec, 0, 0, 6);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
-
-	VectorSet(tempvec, 0, 0, -6);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);*/
 
 	ent->client->ps.gunframe++;
 }
@@ -977,29 +1000,29 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 	{
 	VectorSet(tempvec, 0, 0, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 	
 	VectorSet(tempvec, 0, 0, 4);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, 0, -4);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 	}
 	else
 	{
 		VectorSet(tempvec, 0, 0, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, 0, 4);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, 0, -4);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 	}
 
 	// send muzzle flash
@@ -1014,104 +1037,8 @@ void Machinegun_Fire (edict_t *ent, int effect, qboolean hyper)
 	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		//ent->client->pers.inventory[ent->client->ammo_index]--;
 }
-	/*int	i;
-	vec3_t		start;
-	vec3_t		forward, right;
-	vec3_t		angles;
-	int			damage = 8;
-	int			kick = 2;
-	vec3_t		offset;
-	vec3_t tempvec;//triple blaster
+	
 
-	if (!(ent->client->buttons & BUTTON_ATTACK))
-	{
-		ent->client->machinegun_shots = 0;
-		ent->client->ps.gunframe++;
-		return;
-	}
-
-	if (ent->client->ps.gunframe == 5)
-		ent->client->ps.gunframe = 4;
-	else
-		ent->client->ps.gunframe = 5;
-
-	if (ent->client->pers.inventory[ent->client->ammo_index] < 1)
-	{
-		ent->client->ps.gunframe = 6;
-		if (level.time >= ent->pain_debounce_time)
-		{
-			gi.sound(ent, CHAN_VOICE, gi.soundindex("weapons/noammo.wav"), 1, ATTN_NORM, 0);
-			ent->pain_debounce_time = level.time + 1;
-		}
-		//NoAmmoWeaponChange (ent);
-		return;
-	}
-
-	if (is_quad)
-	{
-		damage *= 4;
-		kick *= 4;
-	}
-
-	for (i=1 ; i<3 ; i++)
-	{
-		ent->client->kick_origin[i] = crandom() * 0.35;//simulate recoil 
-		ent->client->kick_angles[i] = crandom() * 0.7;//simulate recoil
-	}
-	ent->client->kick_origin[0] = crandom() * 0.35;
-	ent->client->kick_angles[0] = ent->client->machinegun_shots * -1.5;
-
-	// raise the gun as it is firing
-	if (!deathmatch->value)
-	{
-		ent->client->machinegun_shots++;
-		if (ent->client->machinegun_shots > 9)
-			ent->client->machinegun_shots = 9;
-	}
-
-	// get start / end positions
-	VectorAdd (ent->client->v_angle, ent->client->kick_angles, angles);
-	AngleVectors (angles, forward, right, NULL);//fires bullets in right direction
-	VectorSet(offset, 0, 8, ent->viewheight-8);//fires bullets from muzzle
-	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	//fire_blaster (ent, start, forward, damage, 500/*1000, effect, hyper);		
-	//fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
-
-	//add 3 new bolts below firing in a vertical line
-	VectorSet(tempvec, 0, 0, 0);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
-
-	VectorSet(tempvec, 0, 0, 4);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
-
-	VectorSet(tempvec, 0, 0, -4);
-	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
-
-	gi.WriteByte (svc_muzzleflash);
-	gi.WriteShort (ent-g_edicts);
-	gi.WriteByte (MZ_MACHINEGUN | is_silenced);
-	gi.multicast (ent->s.origin, MULTICAST_PVS);
-
-	PlayerNoise(ent, start, PNOISE_WEAPON);
-
-	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		//ent->client->pers.inventory[ent->client->ammo_index]--;
-
-	ent->client->anim_priority = ANIM_ATTACK;
-	if (ent->client->ps.pmove.pm_flags & PMF_DUCKED)
-	{
-		ent->s.frame = FRAME_crattak1 - (int) (random()+0.25);
-		ent->client->anim_end = FRAME_crattak9;
-	}
-	else
-	{
-		ent->s.frame = FRAME_attack1 - (int) (random()+0.25);
-		ent->client->anim_end = FRAME_attack8;
-	}
-}*/
 
 void Weapon_Machinegun (edict_t *ent)
 {
