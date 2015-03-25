@@ -191,7 +191,11 @@ void ChangeWeapon (edict_t *ent)
 
 	ent->client->weaponstate = WEAPON_ACTIVATING;
 	ent->client->ps.gunframe = 0;
-	ent->client->ps.gunindex = gi.modelindex(ent->client->pers.weapon->view_model);
+
+	if(!ent->client->chasetoggle)//check if chasecam is on/off
+	{
+		ent->client->ps.gunindex = gi.modelindex(ent->client->pers.weapon->view_model); //when player changes weapons it won't appear on camera
+	}
 
 	ent->client->anim_priority = ANIM_PAIN;
 	if(ent->client->ps.pmove.pm_flags & PMF_DUCKED)
@@ -203,7 +207,6 @@ void ChangeWeapon (edict_t *ent)
 	{
 			ent->s.frame = FRAME_pain301;
 			ent->client->anim_end = FRAME_pain304;
-			
 	}
 }
 

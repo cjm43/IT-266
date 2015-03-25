@@ -1527,7 +1527,7 @@ always owned, never in the world
 /*QUAKED ammo_shells (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"ammo_shells",
+		NULL,//"ammo_shells",
 		Pickup_Ammo,
 		NULL,
 		Drop_Ammo,
@@ -1550,7 +1550,7 @@ always owned, never in the world
 /*QUAKED ammo_bullets (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"ammo_bullets",
+		NULL,//"ammo_bullets",
 		Pickup_Ammo,
 		NULL,
 		Drop_Ammo,
@@ -1573,7 +1573,7 @@ always owned, never in the world
 /*QUAKED ammo_cells (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"ammo_cells",
+		NULL,//"ammo_cells",
 		Pickup_Ammo,
 		NULL,
 		Drop_Ammo,
@@ -1596,7 +1596,7 @@ always owned, never in the world
 /*QUAKED ammo_rockets (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"ammo_rockets",
+		NULL,//"ammo_rockets",
 		Pickup_Ammo,
 		NULL,
 		Drop_Ammo,
@@ -1619,7 +1619,7 @@ always owned, never in the world
 /*QUAKED ammo_slugs (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"ammo_slugs",
+		NULL,//"ammo_slugs",
 		Pickup_Ammo,
 		NULL,
 		Drop_Ammo,
@@ -1692,7 +1692,7 @@ always owned, never in the world
 /*QUAKED item_silencer (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"item_silencer",
+		NULL,//"item_silencer",
 		Pickup_Powerup,
 		Use_Silencer,
 		Drop_General,
@@ -1809,7 +1809,7 @@ gives +1 to maximum health
 /*QUAKED item_bandolier (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
-		"item_bandolier",
+		NULL,//"item_bandolier",
 		Pickup_Bandolier,
 		NULL,
 		NULL,

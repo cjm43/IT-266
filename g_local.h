@@ -943,6 +943,7 @@ struct gclient_s
 	edict_t		*chasecam;
 	edict_t		*oldplayer;
 
+
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
 };
@@ -1096,7 +1097,10 @@ struct edict_s
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
 
+
 	int				chasedist1;
-	int				chasedist2;
+	int				chasedist2; //determine distance between camera and player
+
 };
+extern void CheckChasecam_Viewent(edict_t *ent); //tell compiler this will be defined in code later on
 
