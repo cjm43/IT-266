@@ -773,6 +773,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 }
 
+
 void Blaster_Fire_2 (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, int effect)
 {
 
@@ -791,6 +792,7 @@ void Blaster_Fire_2 (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, 
 	ent->client->kick_angles[0] = -1;
 
 	fire_blaster_2 (ent, start, forward, damage, 1000/*1000*/, effect, hyper);//1000-affects speed
+//>>>>>>> brass_knuckles
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1034,7 +1036,7 @@ MACHINEGUN / CHAINGUN
 */
 
 
-void Machinegun_Fire (edict_t *ent, vec3_t dir, int effect, qboolean hyper)
+void Machinegun_Fire (edict_t *ent, vec3_t dir)
 {
 	vec3_t		start;
 	vec3_t		forward, right;
@@ -1098,12 +1100,14 @@ void Machinegun_Fire (edict_t *ent, vec3_t dir, int effect, qboolean hyper)
 	//}
 
 	// get start / end positions
+
 		//VectorAdd (ent->client->v_angle, ent->client->kick_angles, angles);
 		//AngleVectors (angles, forward, right, NULL);
 		//VectorSet(offset, 0, 8, ent->viewheight-8);
 		//P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	//fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);		
 	//fire_bullet (ent, start, forward, damage, kick, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_MACHINEGUN);
+
 
 		VectorSet(tempvec, 0, 0, 4);
 		VectorAdd(tempvec, vec3_origin, tempvec);
@@ -1134,7 +1138,7 @@ void Weapon_Machinegun (edict_t *ent)
 	static int	pause_frames[]	= {23, 45, 0};
 	static int	fire_frames[]	= {4, 5, 0};
 
-	Weapon_Generic (ent, 3, 7/*5*/, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
+	Weapon_Generic (ent, 3, 7, 45, 49, pause_frames, fire_frames, Machinegun_Fire);
 }
 
 void Chaingun_Fire (edict_t *ent)
@@ -1279,8 +1283,9 @@ void weapon_shotgun_fire (edict_t *ent/*, qboolean hyper, int effect*/)
 	vec3_t		start;
 	vec3_t		forward, right;
 	vec3_t		offset;
-	int			damage = 4;
-	int			kick = 8;
+	int			damage = 100;
+	int			kick = 1;//8
+	vec3_t      tempvec;//triple blaster
 
 	if (ent->client->ps.gunframe == 9)
 	{
@@ -1305,9 +1310,29 @@ void weapon_shotgun_fire (edict_t *ent/*, qboolean hyper, int effect*/)
 	//fire_blaster (ent, start, forward, damage, 100/*1000*/, effect, hyper);//1000-affects speed
 
 	if (deathmatch->value)
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
+	{
+		//fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_DEATHMATCH_SHOTGUN_COUNT, MOD_SHOTGUN);
+		// STEVE : add 2 new bolts below
+		VectorSet(tempvec, 0, 2, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+		VectorSet(tempvec, 0, -2, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	}
 	else
-		fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
+	{
+		//fire_shotgun (ent, start, forward, damage, kick, 500, 500, DEFAULT_SHOTGUN_COUNT, MOD_SHOTGUN);
+		// STEVE : add 2 new bolts below
+		VectorSet(tempvec, 0, 2, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
+
+		VectorSet(tempvec, 0, -2, 0);
+		VectorAdd(tempvec, vec3_origin, tempvec);
+		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
+	}
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
@@ -1327,7 +1352,7 @@ void Weapon_Shotgun (edict_t *ent)
 	static int	pause_frames[]	= {22, 28, 34, 0};
 	static int	fire_frames[]	= {8, 9, 0};
 
-	Weapon_Generic (ent, 7, 18, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);
+	Weapon_Generic (ent, 7, 10/*18*/, 36, 39, pause_frames, fire_frames, weapon_shotgun_fire);
 }
 
 

@@ -328,6 +328,8 @@ void blaster_touch (edict_t *self, edict_t *other, cplane_t *plane, csurface_t *
 
 void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
 {
+	vec3_t  end;
+	vec3_t  aimdir;
 	edict_t	*bolt;
 	trace_t	tr;
 
@@ -373,8 +375,10 @@ void fire_blaster (edict_t *self, vec3_t start, vec3_t dir, int damage, int spee
 	}
 }	
 
+
 void fire_blaster_2 (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
 {
+
 	edict_t	*bolt;
 	trace_t	tr;
 
@@ -387,12 +391,21 @@ void fire_blaster_2 (edict_t *self, vec3_t start, vec3_t dir, int damage, int sp
 	// (blaster/hyperblaster shots), the player won't be solid clipped against
 	// the object.  Right now trying to run into a firing hyperblaster
 	// is very jerky since you are predicted 'against' the shots.
-	VectorCopy (start, bolt->s.origin);//origin of bolt of whatever it hits
-	VectorCopy (start, bolt->s.old_origin);//origin of the bolt from the blaster
-	vectoangles (dir, bolt->s.angles);//angle of the bolt
-	VectorScale (dir, 900, bolt->velocity);//takes direction and speed and puts it into velocity
-	bolt->movetype = MOVETYPE_FLYMISSILE;//how the bolt travels the map
-	bolt->clipmask = MASK_SHOT;//indicates what the bolt should not pass through
+
+	//VectorCopy (start, bolt->s.origin);//origin of bolt of whatever it hits
+	//VectorCopy (start, bolt->s.old_origin);//origin of the bolt from the blaster
+	//vectoangles (dir, bolt->s.angles);//angle of the bolt
+	//VectorScale (dir, 900, bolt->velocity);//takes direction and speed and puts it into velocity
+	//bolt->movetype = MOVETYPE_FLYMISSILE;//how the bolt travels the map
+	//bolt->clipmask = MASK_SHOT;//indicates what the bolt should not pass through
+
+	VectorCopy (start, bolt->s.origin);
+	VectorCopy (start, bolt->s.old_origin);
+	vectoangles (dir, bolt->s.angles);
+	//VectorMA (start, 40, aimdir, end);
+	VectorScale (dir, 16/*speed*/, bolt->velocity);
+	bolt->movetype = MOVETYPE_FLYMISSILE;
+	bolt->clipmask = MASK_SHOT;
 	bolt->solid = SOLID_BBOX;
 	bolt->s.effects |= effect;
 	VectorClear (bolt->mins);
@@ -401,8 +414,13 @@ void fire_blaster_2 (edict_t *self, vec3_t start, vec3_t dir, int damage, int sp
 	bolt->s.sound = gi.soundindex ("misc/lasfly.wav");
 	bolt->owner = self;
 	bolt->touch = blaster_touch;
-	bolt->nextthink = level.time + .009;
-	bolt->think = G_FreeEdict;
+//<<<<<<< HEAD
+	//bolt->nextthink = level.time + .009;
+	//bolt->think = G_FreeEdict;
+//=======
+	bolt->nextthink = level.time + .25f;//time to live each second
+	bolt->think = G_FreeEdict;//destroy bolt
+//>>>>>>> brass_knuckles
 	bolt->dmg = damage;
 	bolt->classname = "bolt";
 	if (hyper)
