@@ -507,11 +507,13 @@ static void Grenade_Touch (edict_t *ent, edict_t *other, cplane_t *plane, csurfa
 		{
 			gi.sound (ent, CHAN_VOICE, gi.soundindex ("weapons/grenlb1b.wav"), 1, ATTN_NORM, 0);
 		}
+		G_FreeEdict (ent);
 		return;
 	}
 
 	ent->enemy = other;
-	Grenade_Explode (ent);
+	T_Damage (other, ent, ent->owner, ent->velocity, other->s.origin, other->s.origin, 50, 0, DAMAGE_NO_ARMOR, MOD_CRUSH);
+	G_FreeEdict (ent);
 }
 
 void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius)
@@ -529,7 +531,7 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	VectorMA (grenade->velocity, 200 + crandom() * 10.0, up, grenade->velocity);
 	VectorMA (grenade->velocity, crandom() * 10.0, right, grenade->velocity);
 	VectorSet (grenade->avelocity, 300, 300, 300);
-	grenade->movetype = MOVETYPE_BOUNCE;//MOVETYPE_BOUNCE
+	grenade->movetype = MOVETYPE_FLYMISSILE;//MOVETYPE_BOUNCE
 	grenade->clipmask = MASK_SHOT;
 	grenade->solid = SOLID_BBOX;
 	grenade->s.effects |= EF_GRENADE;
