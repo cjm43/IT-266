@@ -667,11 +667,13 @@ void rocket_touch (edict_t *ent, edict_t *other, cplane_t *plane, csurface_t *su
 	G_FreeEdict (ent);
 }
 
-void fire_rocket(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, int effect, qboolean hyper)
+void fire_rocket(edict_t *self, vec3_t start, vec3_t dir, int damage, int speed)
 {
 	edict_t	*rocket;
 	edict_t	*bolt;
 	trace_t	tr;
+	int effect;
+	qboolean hyper;
 
 	VectorNormalize (dir);
 
