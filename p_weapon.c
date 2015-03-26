@@ -791,7 +791,7 @@ void Blaster_Fire_2 (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, 
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_blaster_2 (ent, start, forward, damage, 1000/*1000*/, effect, hyper);//1000-affects speed
+	fire_blaster (ent, start, forward, damage, 1000/*1000*/, effect, hyper);//1000-affects speed
 //>>>>>>> brass_knuckles
 
 	// send muzzle flash
@@ -1315,11 +1315,11 @@ void weapon_shotgun_fire (edict_t *ent/*, qboolean hyper, int effect*/)
 		// STEVE : add 2 new bolts below
 		VectorSet(tempvec, 0, 2, 0);
 		VectorAdd(tempvec, vec3_origin, tempvec);
-		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
+		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 		VectorSet(tempvec, 0, -2, 0);
 		VectorAdd(tempvec, vec3_origin, tempvec);
-		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
+		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 	}
 	else
 	{
@@ -1327,11 +1327,11 @@ void weapon_shotgun_fire (edict_t *ent/*, qboolean hyper, int effect*/)
 		// STEVE : add 2 new bolts below
 		VectorSet(tempvec, 0, 2, 0);
 		VectorAdd(tempvec, vec3_origin, tempvec);
-		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
+		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 
 		VectorSet(tempvec, 0, -2, 0);
 		VectorAdd(tempvec, vec3_origin, tempvec);
-		Knuckle_Fire (ent, tempvec, damage, false, EF_BLASTER);
+		Blaster_Fire (ent, tempvec, damage, false, EF_BLASTER);
 	}
 
 	// send muzzle flash
