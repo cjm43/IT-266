@@ -806,13 +806,46 @@ void Blaster_Fire_2 (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 }
 
+void Blaster_Fire_3 (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, int effect)
+{
+
+	vec3_t	forward, right; 
+	vec3_t	start;
+	vec3_t	offset;
+
+	if (is_quad)
+		damage *= 4;
+	AngleVectors (ent->client->v_angle, forward, right, NULL);
+	VectorSet(offset, 24, 8, ent->viewheight-8);
+	VectorAdd (offset, g_offset, offset);
+	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
+
+	VectorScale (forward, -2, ent->client->kick_origin);
+	ent->client->kick_angles[0] = -1;
+
+	fire_blaster (ent, start, forward, damage, 1000/*1000*/, effect, hyper);//1000-affects speed
+//>>>>>>> brass_knuckles
+
+	// send muzzle flash
+	gi.WriteByte (svc_muzzleflash);
+	gi.WriteShort (ent-g_edicts);
+	if (hyper)
+		gi.WriteByte (MZ_HYPERBLASTER | is_silenced);
+	else
+		gi.WriteByte (MZ_BLASTER | is_silenced);
+	gi.multicast (ent->s.origin, MULTICAST_PVS);
+
+	PlayerNoise(ent, start, PNOISE_WEAPON);
+}
+
+
 
 
 void Weapon_Blaster_Fire (edict_t *ent)
 {
 	int		damage;
 
-	vec3_t tempvec;//triple blaster
+	//vec3_t tempvec;//triple blaster
 
 	if (deathmatch->value)
 		damage = 15;
@@ -952,10 +985,10 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)/*edict_t *ent, qboolean hyper, in
 	vec3_t	forward, right; 
 	vec3_t	start;
 	vec3_t  offset;
-	vec3_t	g_offset;
+	//vec3_t	g_offset;
 	int		damage;
-	float	damage_radius;
-	int		radius_damage;
+	//float	damage_radius;
+	//int		radius_damage;
 	vec3_t  tempvec;
 
 	damage = 100; //+ (int)(random() * 20.0);
@@ -1491,6 +1524,7 @@ void weapon_bfg_fire (edict_t *ent)
 	vec3_t	forward, right;
 	int		damage;
 	float	damage_radius = 1000;
+	int	tempvec;
 
 	if (deathmatch->value)
 		damage = 200;
@@ -1533,7 +1567,27 @@ void weapon_bfg_fire (edict_t *ent)
 
 	VectorSet(offset, 8, 8, ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_bfg (ent, start, forward, damage, 400, damage_radius);
+	//fire_bfg (ent, start, forward, damage, 400, damage_radius);
+
+	/*VectorSet(tempvec, 0, 8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);
+	
+	VectorSet(tempvec, 0, 4, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, -8, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);
+	
+	VectorSet(tempvec, 0, -4, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);
+
+	VectorSet(tempvec, 0, 0, 0);
+	VectorAdd(tempvec, vec3_origin, tempvec);
+	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);*/
 
 	ent->client->ps.gunframe++;
 
