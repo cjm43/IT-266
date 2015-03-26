@@ -1522,9 +1522,9 @@ void weapon_bfg_fire (edict_t *ent)
 {
 	vec3_t	offset, start;
 	vec3_t	forward, right;
+	vec3_t  tempvec;
 	int		damage;
-	float	damage_radius = 1000;
-	int	tempvec;
+	//float	damage_radius = 1000;
 
 	if (deathmatch->value)
 		damage = 200;
@@ -1553,15 +1553,15 @@ void weapon_bfg_fire (edict_t *ent)
 		return;
 	}
 
-	if (is_quad)
-		damage *= 4;
+	//if (is_quad)
+		//damage *= 4;
 
 	AngleVectors (ent->client->v_angle, forward, right, NULL);
 
 	VectorScale (forward, -2, ent->client->kick_origin);
 
 	// make a big pitch kick with an inverse fall
-	ent->client->v_dmg_pitch = -40;
+	ent->client->v_dmg_pitch = -20;
 	ent->client->v_dmg_roll = crandom()*8;
 	ent->client->v_dmg_time = level.time + DAMAGE_TIME;
 
@@ -1569,32 +1569,32 @@ void weapon_bfg_fire (edict_t *ent)
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	//fire_bfg (ent, start, forward, damage, 400, damage_radius);
 
-	/*VectorSet(tempvec, 0, 8, 0);
+	VectorSet(tempvec, 0, 8, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 	
 	VectorSet(tempvec, 0, 4, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, -8, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 	
 	VectorSet(tempvec, 0, -4, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 
 	VectorSet(tempvec, 0, 0, 0);
 	VectorAdd(tempvec, vec3_origin, tempvec);
-	Blaster_Fire_3 (ent, tempvec, damage, false, EF_BLASTER);*/
+	Blaster_Fire_2 (ent, tempvec, damage, false, EF_BLASTER);
 
 	ent->client->ps.gunframe++;
 
 	PlayerNoise(ent, start, PNOISE_WEAPON);
 
-	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
-		ent->client->pers.inventory[ent->client->ammo_index] -= 50;
+	//if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
+		//ent->client->pers.inventory[ent->client->ammo_index] -= 50;
 }
 
 void Weapon_BFG (edict_t *ent)
